@@ -8,5 +8,6 @@ Libraries included in this project are stripped of code and used as reference on
 Clock visible inside ship or inside factory  
 Smaller more compact clock  
 Consistent clock size  
+Higher more out of the way clock  
 Faster clock ui update rate  
 24 hour time

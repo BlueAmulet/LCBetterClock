@@ -1,5 +1,8 @@
-﻿using GameNetcodeStuff;
+﻿using BepInEx;
+using BepInEx.Bootstrap;
+using GameNetcodeStuff;
 using HarmonyLib;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BetterClock.Patches
@@ -16,8 +19,19 @@ namespace BetterClock.Patches
             if (Settings.compact.Value)
             {
                 Transform parent = __instance.clockNumber.transform.parent;
-                // Move entire clock up
-                parent.localPosition += new Vector3(0, 40, 0);
+                if (Settings.raiseClock.Value)
+                {
+                    // Move entire clock up
+                    Dictionary<string, PluginInfo> pluginInfos = Chainloader.PluginInfos;
+                    if (pluginInfos.ContainsKey("SolosRingCompass") || pluginInfos.ContainsKey("LineCompassPlugin"))
+                    {
+                        parent.localPosition += new Vector3(0, 20, 0);
+                    }
+                    else
+                    {
+                        parent.localPosition += new Vector3(0, 40, 0);
+                    }
+                }
                 // Shrink box
                 RectTransform boxRect = parent.GetComponent<RectTransform>();
                 boxRect.sizeDelta = new Vector2(boxRect.sizeDelta.x, 50);
