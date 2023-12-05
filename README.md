@@ -1,5 +1,5 @@
 # BetterClock for Lethal Company
-Adds customizability and improvements to the Lethal Company clock.  
+Adds customizability, improvements, and bug fixes to the Lethal Company clock.  
 Download via Thunderstore [here](https://thunderstore.io/c/lethal-company/p/BlueAmulet/LCBetterClock/)
 
 Libraries included in this project are stripped of code and used as reference only.
@@ -7,7 +7,7 @@ Libraries included in this project are stripped of code and used as reference on
 ## Features
 Clock visible inside ship or inside factory  
 Smaller more compact clock  
-Consistent clock size  
-Higher more out of the way clock  
+Leading zeros for consistent clock size  
+Raised clock to be less obstructive of vision  
 Faster clock ui update rate  
 24 hour time

@@ -86,22 +86,46 @@ namespace BetterClock.Patches
         [HarmonyPatch("SetClock")]
         public static void PostfixSetClock(ref HUDManager __instance, ref float timeNormalized, ref float numberOfHours)
         {
+            int time = (int)(timeNormalized * (60f * numberOfHours)) + 360;
+            int hours = (time / 60) % 24;
+            int minutes = time % 60;
+
             string text;
-            if (Settings.hours24.Value)
+            bool hours24 = Settings.hours24.Value;
+            if (hours24)
             {
-                int time = (int)(timeNormalized * (60f * numberOfHours)) + 360;
-                int hours = (int)Mathf.Floor(time / 60);
-                int minutes = time % 60;
-                if (hours >= 24)
-                {
-                    hours = 24;
-                    minutes = 0;
-                }
                 text = $"{hours}:{minutes:00}";
             }
             else
             {
                 text = __instance.clockNumber.text;
+            }
+            if (Settings.properTime.Value)
+            {
+                // Trim leading zero
+                if (text.StartsWith("00:") || (text.Length >= 3 && text[0] == '0' && text[2] == ':'))
+                {
+                    text = text.Substring(1);
+                }
+                // Wrap 24 hours
+                else if (text.StartsWith("24:"))
+                {
+                    text = "0:" + text.Substring(3);
+                }
+                // Fix 12 hour time with 0 hours
+                if (text.StartsWith("0:") && text.EndsWith("M"))
+                {
+                    text = "12:" + text.Substring(2);
+                }
+                // Fix wrong suffix
+                if (hours < 12 && text.EndsWith("PM"))
+                {
+                    text = text.Substring(0, text.Length - 2) + "AM";
+                }
+                else if (hours >= 12 && text.EndsWith("AM"))
+                {
+                    text = text.Substring(0, text.Length - 2) + "PM";
+                }
             }
             if (Settings.compact.Value)
             {
@@ -111,7 +135,14 @@ namespace BetterClock.Patches
             if (Settings.leadingZero.Value && (text.Length <= 4 || text.Length == 7))
             {
                 // Add a zero to keep sizing
-                text = "<color=#602000>0</color>" + text;
+                if (Settings.darkZero.Value)
+                {
+                    text = "<color=#602000>0</color>" + text;
+                }
+                else
+                {
+                    text = "0" + text;
+                }
             }
             __instance.clockNumber.text = text;
         }

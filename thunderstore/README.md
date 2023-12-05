@@ -4,8 +4,8 @@ Allows the clock to be customizable, all features may be changed via config file
 ## Features
 Clock visible inside ship or inside factory  
 Smaller more compact clock  
-Consistent clock size  
-Higher more out of the way clock  
+Leading zeros for consistent clock size  
+Raised clock to be less obstructive of vision  
 Faster clock ui update rate  
 24 hour time
 
@@ -19,6 +19,12 @@ If you are installing this manually, do the following
 ## Changelog
 <details>
 <summary>Click to expand</summary>
+
+### 1.0.2
+Allow dark leading zero to be configured.  
+Better compatibility with 24 hour time and mods that change the ship auto leave time like [LaterNights](https://thunderstore.io/c/lethal-company/p/ATK/LaterNights/).  
+Added option to automatically fix time formatting issues from base game or other mods.  
+Notably midnight being 12 PM (base game) or 0 AM (LaterNights)
 
 ### 1.0.1
 Allow clock raising to be configured, requires compact to be enabled.  
