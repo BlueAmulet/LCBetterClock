@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Bootstrap;
+using BepInEx.Configuration;
 using GameNetcodeStuff;
 using HarmonyLib;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace BetterClock.Patches
     internal static class ClockPatch
     {
         private static int lastTime = -1;
+        private static bool overrideDisplay = false;
 
         [HarmonyPostfix]
         [HarmonyPatch("Awake")]
@@ -53,6 +55,24 @@ namespace BetterClock.Patches
         [HarmonyPatch("SetClockVisible")]
         public static bool PrefixVisible(ref HUDManager __instance)
         {
+            // Keybind override
+            KeyboardShortcut overrideKeybind = Settings.overrideKeybind.Value;
+            if (Settings.overrideToggle.Value)
+            {
+                if (overrideKeybind.IsDown())
+                {
+                    overrideDisplay = !overrideDisplay;
+                }
+            }
+            else
+            {
+                overrideDisplay = overrideKeybind.IsPressed();
+            }
+            if (overrideDisplay)
+            {
+                __instance.Clock.targetAlpha = Settings.visibilityOverride.Value;
+                return false;
+            }
             // Keep clock visible
             GameNetworkManager gnmInstance = GameNetworkManager.Instance;
             PlayerControllerB localPlayer = null;
@@ -103,7 +123,7 @@ namespace BetterClock.Patches
             if (Settings.properTime.Value)
             {
                 // Trim leading zero
-                if (text.StartsWith("00:") || (text.Length >= 3 && text[0] == '0' && text[2] == ':'))
+                if (text.Length >= 3 && text[0] == '0' && text[2] == ':')
                 {
                     text = text.Substring(1);
                 }

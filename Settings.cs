@@ -15,6 +15,10 @@ namespace BetterClock
         internal static ConfigEntry<float> visibilityShip;
         internal static ConfigEntry<float> visibilityOutside;
         internal static ConfigEntry<float> visibilityInside;
+        internal static ConfigEntry<float> visibilityOverride;
+
+        internal static ConfigEntry<KeyboardShortcut> overrideKeybind;
+        internal static ConfigEntry<bool> overrideToggle;
 
         public static void InitConfig(ConfigFile config)
         {
@@ -29,6 +33,10 @@ namespace BetterClock
             visibilityShip = config.Bind("Clock", "VisibilityShip", 1f, "Visibility of clock inside ship");
             visibilityOutside = config.Bind("Clock", "VisibilityOutside", 1f, "Visibility of clock outside");
             visibilityInside = config.Bind("Clock", "VisibilityInside", 0.25f, "Visibility of clock inside factory");
+            visibilityOverride = config.Bind("Clock", "VisibilityOverride", 1f, "Visibility when using override keybind");
+
+            overrideKeybind = config.Bind("Clock", "OverrideKeybind", KeyboardShortcut.Empty, "Keybind to trigger visibility override");
+            overrideToggle = config.Bind("Clock", "OverrideToggle", false, "Switch the override keybind between toggle or hold");
         }
     }
 }

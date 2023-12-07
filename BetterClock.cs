@@ -10,7 +10,7 @@ namespace BetterClock
         internal const string Name = "BetterClock";
         internal const string Author = "BlueAmulet";
         internal const string ID = Author + "." + Name;
-        internal const string Version = "1.0.2";
+        internal const string Version = "1.0.3";
 
         public void Awake()
         {

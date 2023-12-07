@@ -10,4 +10,5 @@ Smaller more compact clock
 Leading zeros for consistent clock size  
 Raised clock to be less obstructive of vision  
 Faster clock ui update rate  
-24 hour time
+24 hour time  
+Optional keybind to show clock instead
